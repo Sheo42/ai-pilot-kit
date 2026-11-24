@@ -64,5 +64,6 @@ not specific to its domain come back here by pull request
 | `{{SECURITY_AREAS}}` | The areas that need the security engineer |
 | `{{DATE}}` | The start date |
 
-Maintaining the kit itself: [KIT.md](KIT.md). Versions:
+Maintaining the kit itself: [KIT.md](KIT.md); its own to-do list:
+[kit/docs/todo/](kit/docs/todo/README.md). Versions:
 [CHANGELOG.md](CHANGELOG.md).

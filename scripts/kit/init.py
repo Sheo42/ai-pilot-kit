@@ -8,8 +8,8 @@ Run it once, in the new repository made with "Use this template":
 
 It fills the placeholders ({{PROJECT}}, {{OWNER}}, {{PRODUCT}}, {{STACK}},
 {{SECURITY_AREAS}}, {{DATE}}) in every text file, removes what only the kit
-repository needs (KIT.md, CHANGELOG.md, the kit's own workflow and test, the
-kit note at the top of CLAUDE.md, this folder), writes a short README.md, and keeps KIT_VERSION so the project
+repository needs (KIT.md, CHANGELOG.md, the kit's own workflow, test and
+to-do list in kit/, the kit note at the top of CLAUDE.md, this folder), writes a short README.md, and keeps KIT_VERSION so the project
 knows which kit version it started from. Then it lists what is left to do by
 hand: every "<!-- choose: ... -->" marker.
 
@@ -26,6 +26,7 @@ import sys
 from datetime import date
 from pathlib import Path
 
+KIT_ONLY_DIRS = ["kit"]
 KIT_ONLY = ["KIT.md", "CHANGELOG.md", ".github/workflows/kit.yml", "scripts/ci/tests/test_kit_init.py"]
 KIT_NOTE = re.compile(r"<!-- kit-note -->.*?<!-- /kit-note -->\n*", re.DOTALL)
 CHOOSE = re.compile(r"<!-- choose: (.*?) -->")
@@ -80,6 +81,8 @@ def main(argv: list[str]) -> int:
     }
     for name in KIT_ONLY:
         (root / name).unlink(missing_ok=True)
+    for name in KIT_ONLY_DIRS:
+        shutil.rmtree(root / name, ignore_errors=True)
     for path in text_files(root):
         text = path.read_text(encoding="utf-8")
         new = KIT_NOTE.sub("", text)

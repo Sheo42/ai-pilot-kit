@@ -22,6 +22,13 @@ removes it from a new project.
    `docs/chronicle/lessons.md` ("Inherited from earlier projects") when it
    is not already a rule; when it is, the rule is enough.
 
+## To-do list
+
+The kit's own open items are in `kit/docs/todo/` (its README says why they
+are not in `docs/todo/`, which is a new project's first list). The
+coordinator reserves ranges as in a project (`docs/process.md`, "Parallel
+threads").
+
 ## Checks
 
 `.github/workflows/kit.yml` runs the CI scripts' tests, among them
