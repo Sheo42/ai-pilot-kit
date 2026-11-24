@@ -1,0 +1,45 @@
+# Glossary
+
+Every term, acronym and standard used in the project, in plain words. Every
+role adds a term the first time it uses it, in the same change. Sorted
+alphabetically within each section.
+
+## Domain
+
+| Term | Meaning |
+|---|---|
+
+## Project process
+
+| Term | Meaning |
+|---|---|
+| AC | Acceptance criterion: one testable Given / When / Then condition of a requirement |
+| ADR | Architecture Decision Record: a short document recording one decision, its options and consequences |
+| AI pilot kit | The template repository this project started from: the rules, roles, templates and checks of the method. `KIT_VERSION` says which version; general improvements go back to it (`docs/process.md`, "The kit") |
+| Bug, bug priority | A to-do row with the category `Bug`; its priority comes from impact × likelihood: P1 blocks a user journey or breaks security, P2 has a workaround, P3 is cosmetic |
+| CI queue | Full CI runs take turns on a single runner, in an order the coordinator writes in one issue (the owner can change it); a run that must wait cancels itself and is started again when its turn comes |
+| Claim test | A check that compares what a document says with what the code does, so the two cannot drift apart |
+| Coordinator, thread | The Claude session that talks with the owner in the project chat, and the separate sessions it starts, one per piece of work |
+| Coordinator playbook | The kit's `docs/coordinator.md`: how the coordinator starts threads, chooses each pull request's reviews and the merge order, and talks with the owner, written so another project does not have to rebuild it from project memory |
+| Differential test | A test that runs the old and the new version of something on the same input and compares the results (for example, database migrations run in two orders) |
+| Draft pull request | A pull request marked as not ready: it cannot be merged, and CI runs only its fast checks until it is marked ready for review |
+| Exploratory POC | A throwaway proof of concept built without requirements, to give the owner something to try; closed by turning the feedback into requirements |
+| Independent challenge | A review of a big decision by a fresh session on another model, reading only the repository, with numbered findings the owner triages one by one |
+| Judge file | A file that decides whether a change is good: CI, test and lint settings, agents, skills, the process, the tests themselves. A PR that changes one says so, and the PR reviewer reads the change for weakening |
+| Local test scope | A session runs only the tests and end-to-end journeys its change touches; the full suite is CI's run. The tests cost no tokens; setting up the stack and reading its output do |
+| Merge batch | Two or three low-risk pull requests merged together into one branch with the newest `main`, tested by one CI run, merged by the owner as one |
+| Merge order | The order, listed for the owner, in which open pull requests merge one at a time; only the next one merges `main` into its branch, just before its turn |
+| Merge summary | The PR reviewer's short, plain summary of a PR and its review verdicts, for the owner |
+| MoSCoW | Priority scale: Must, Should, Could, Won't |
+| Number range | A block of to-do, requirement, ADR or migration numbers the coordinator reserves for one thread when it starts, so parallel branches never write the same ID; unused numbers stay unused |
+| Phase gate | The checks that end a roadmap phase; the next phase starts only when they pass |
+| Range file | The file of the to-do list that holds one number range, `docs/todo/540-549.md`; created by the thread that got the range, so parallel pull requests never add rows at the same place |
+| Ratchet | A CI check on a number (suppressions, coverage, a file's size) whose baseline may only improve |
+| Round limit | How many CI runs of the same failing job, or review send-backs for the same finding, a session takes before it gets a fresh look and then asks the owner (`docs/process.md`, "Verification") |
+| Stop the line | A red main branch or a stuck pull request is fixed before new work starts |
+| Skill, verify skill | A packaged set of instructions a Claude session loads for one kind of task (`.claude/skills/<name>/SKILL.md`); the `verify` skill holds the checks run before each commit |
+| Subagent (role) | A role defined in `.claude/agents/` that a session can call for a task, with its own instructions and tools |
+| Traceability | The link from each requirement and AC to the tests that prove it, generated from the test tags, never edited by hand |
+| Triage | The owner's call on each finding or question, by number: accept, defer (with a phase) or reject (with a reason) |
+| Use case, UC | One person's whole task across features, step by step: actor, goal, starting state, main steps with what the person sees, other paths, the requirement ACs it crosses and its test. `UC-NN` in `docs/use-cases.md`; each one is a browser journey or an integration scenario tagged `uc: UC-NN` (`docs/process.md`, "Use cases") |
+| Walking skeleton | The thinnest version of the whole system that runs end to end, built first so every later feature hangs on a working chain |

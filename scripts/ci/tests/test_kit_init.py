@@ -1,0 +1,57 @@
+"""The kit's own test: a copy set up with scripts/kit/init.py is a clean project (KIT.md, "Checks")."""
+
+from __future__ import annotations
+
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+KIT = Path(__file__).resolve().parents[3]
+IGNORE = shutil.ignore_patterns(".git", "__pycache__", ".pytest_cache", "node_modules")
+
+
+def set_up(tmp_path: Path) -> tuple[Path, subprocess.CompletedProcess[str]]:
+    repo = tmp_path / "project"
+    shutil.copytree(KIT, repo, ignore=IGNORE)
+    done = subprocess.run(
+        [sys.executable, "scripts/kit/init.py", "--project", "Acme Fleet", "--owner", "Dana",
+         "--product", "A web service that tracks delivery vans.", "--security-areas", "sign-in, payments",
+         "--date", "2027-01-04"],
+        cwd=repo, capture_output=True, text=True, check=False)
+    return repo, done
+
+
+def test_init_fills_every_placeholder_and_removes_the_kit_files(tmp_path: Path) -> None:
+    repo, done = set_up(tmp_path)
+    assert done.returncode == 0, done.stderr
+    assert "Acme Fleet set up from kit version" in done.stdout
+    assert "choose about 15" in done.stdout  # the markers left to decide by hand are listed
+    for path in repo.rglob("*"):
+        if path.is_file() and path.suffix in {".md", ".py", ".sh", ".yml"}:
+            assert "{{" not in path.read_text(encoding="utf-8"), path
+    for gone in ("KIT.md", "CHANGELOG.md", "scripts/kit", ".github/workflows/kit.yml"):
+        assert not (repo / gone).exists(), gone
+    assert (repo / "KIT_VERSION").exists()
+    assert (repo / "README.md").read_text(encoding="utf-8").startswith("# Acme Fleet\n\nA web service")
+    claude = (repo / "CLAUDE.md").read_text(encoding="utf-8")
+    assert claude.startswith("# Acme Fleet") and "kit-note" not in claude
+    assert "Done 2027-01-04" in (repo / "docs/todo/000-009.md").read_text(encoding="utf-8")
+
+
+def test_the_new_project_passes_its_document_checks(tmp_path: Path) -> None:
+    repo, done = set_up(tmp_path)
+    assert done.returncode == 0, done.stderr
+    checks = subprocess.run(["bash", "scripts/ci/check-docs.sh"], cwd=repo, capture_output=True, text=True,
+                            check=False)
+    assert checks.returncode == 0, checks.stdout + checks.stderr
+
+
+def test_init_refuses_to_run_twice(tmp_path: Path) -> None:
+    repo, done = set_up(tmp_path)
+    assert done.returncode == 0
+    shutil.copytree(KIT / "scripts" / "kit", repo / "scripts" / "kit")
+    again = subprocess.run([sys.executable, "scripts/kit/init.py", "--project", "X", "--owner", "Y",
+                            "--product", "Z", "--security-areas", "W"], cwd=repo, capture_output=True,
+                           text=True, check=False)
+    assert again.returncode == 1 and "already a project" in again.stderr

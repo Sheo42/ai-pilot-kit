@@ -1,0 +1,20 @@
+# The kit's own checks (KIT.md, "Checks"): the CI scripts' tests, including
+# one that makes a project with scripts/kit/init.py and runs its document
+# checks, and the Markdown lint. Removed from a project by scripts/kit/init.py.
+name: kit
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  kit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - run: pip install pytest && python3 -m pytest -q scripts/ci/tests
+      - run: npx --yes markdownlint-cli2@0.18.1  # settings in .markdownlint-cli2.jsonc
