@@ -1,0 +1,17 @@
+// Markdown lint settings (CI: .github/workflows/docs.yml). Rules that clash with the
+// project's writing style are turned off, with the reason.
+{
+  "config": {
+    "default": true,
+    "MD001": false, // requirement files go from "#" to "### REQ-..." on purpose (template)
+    "MD013": false, // no line length limit: tables and long sentences are fine
+    "MD032": false, // lists right after a paragraph render well on GitHub
+    "MD033": false, // a little inline HTML is allowed
+    "MD034": false, // bare URLs are allowed
+    "MD036": false, // bold lead-ins such as "**Priority.**" are not headings
+    "MD040": false, // code blocks without a language are allowed (diagrams, commands)
+    "MD041": false  // agent files start with front matter, templates with "###"
+  },
+  "globs": ["**/*.md"],
+  "ignores": ["**/node_modules/**", "**/dist/**"]
+}

@@ -1,0 +1,25 @@
+# Document checks of the project (docs/process.md, "Verification"): unique IDs,
+# to-do range files, links, statuses, traceability; the CI scripts' tests; the
+# Markdown lint. Runs on GitHub's hosted runners; a project with its own runner
+# changes runs-on. Thin on purpose: the checks are scripts any computer can run.
+name: docs
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  docs:
+    # In the kit repository itself the placeholders are not filled yet: the kit's
+    # own workflow (kit.yml) checks a project made from it instead.
+    if: hashFiles('KIT.md') == ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - run: bash scripts/ci/check-docs.sh
+      - run: pip install pytest && python3 -m pytest -q scripts/ci/tests
+      - run: npx --yes markdownlint-cli2@0.18.1  # settings in .markdownlint-cli2.jsonc
