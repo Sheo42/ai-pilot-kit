@@ -19,8 +19,10 @@ concurrency:
 jobs:
   docs:
     # In the kit repository itself the placeholders are not filled yet: the kit's
-    # own workflow (kit.yml) checks a project made from it instead.
-    if: hashFiles('KIT.md') == ''
+    # own workflow (kit.yml) checks a project made from it instead. The kit is a
+    # template repository; a project made with "Use this template" is not.
+    # (hashFiles cannot be used at job level: GitHub rejects the whole file.)
+    if: ${{ !github.event.repository.is_template }}
     runs-on: ${{ fromJSON(vars.CI_RUNS_ON || '"ubuntu-latest"') }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
