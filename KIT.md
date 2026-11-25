@@ -28,8 +28,8 @@ removes it from a new project.
 `scripts/ci/tests/test_kit_init.py`: it makes a project with
 `scripts/kit/init.py`, checks no placeholder is left, and runs that
 project's document checks, then `actionlint` on the workflows. The project
-workflow, `docs.yml`, is skipped here (the kit is a template repository and
-its placeholders are not filled). Locally:
+workflow, `docs.yml`, is skipped here (its steps check for `KIT.md`; the
+placeholders are not filled). Locally:
 
 ```
 python3 -m pytest -q scripts/ci/tests
