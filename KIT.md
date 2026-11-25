@@ -3,6 +3,13 @@
 This file is for sessions that change the kit itself. `scripts/kit/init.py`
 removes it from a new project.
 
+This repository is both the place where the kit is maintained and the
+template projects are made from. What a project gets is the copy made by
+"Use this template", with the kit-only parts removed by `init.py`; nobody
+starting a project clones this repository. Keep it that way: a change here
+must leave `main` ready to be copied, and the README must keep saying what
+a new project needs and what it does not.
+
 ## Rules
 
 1. **No domain.** Nothing about a product, a customer, an employer or a

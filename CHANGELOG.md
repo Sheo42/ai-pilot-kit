@@ -17,6 +17,10 @@
    check moves to each step's `if`. A project that copied 0.1.0 does the
    same. The kit's CI now runs
    `actionlint` on the workflows.
+5. `README.md`, "What you need, and what you do not": a new project needs
+   only the copy made by "Use this template"; it does not clone the kit's
+   repository and does not need the first project. `docs/method/bootstrap.md`
+   and `KIT.md` say the same.
 
 ## 0.1.0 (2026-11-24)
 
