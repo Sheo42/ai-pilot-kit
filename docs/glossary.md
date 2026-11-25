@@ -35,7 +35,9 @@ alphabetically within each section.
 | Phase gate | The checks that end a roadmap phase; the next phase starts only when they pass |
 | Range file | The file of the to-do list that holds one number range, `docs/todo/540-549.md`; created by the thread that got the range, so parallel pull requests never add rows at the same place |
 | Ratchet | A CI check on a number (suppressions, coverage, a file's size) whose baseline may only improve |
+| Repository variable, `CI_RUNS_ON` | A setting of the GitHub repository that workflows read; `CI_RUNS_ON` names the runner labels `docs.yml` runs on, hosted runners when unset (`docs/method/ci-runners.md`) |
 | Round limit | How many CI runs of the same failing job, or review send-backs for the same finding, a session takes before it gets a fresh look and then asks the owner (`docs/process.md`, "Verification") |
+| Self-hosted runner | A machine of the owner's that runs CI jobs for a repository, instead of GitHub's hosted runners; never used by a public repository (`docs/method/ci-runners.md`) |
 | Stop the line | A red main branch or a stuck pull request is fixed before new work starts |
 | Skill, verify skill | A packaged set of instructions a Claude session loads for one kind of task (`.claude/skills/<name>/SKILL.md`); the `verify` skill holds the checks run before each commit |
 | Subagent (role) | A role defined in `.claude/agents/` that a session can call for a task, with its own instructions and tools |

@@ -1,6 +1,8 @@
 # The kit's own checks (KIT.md, "Checks"): the CI scripts' tests, including
 # one that makes a project with scripts/kit/init.py and runs its document
 # checks, and the Markdown lint. Removed from a project by scripts/kit/init.py.
+# The kit repository is public, so it runs on GitHub's hosted runners only:
+# never a self-hosted runner (docs/method/ci-runners.md, rule 1).
 name: kit
 on:
   pull_request:
@@ -8,6 +10,9 @@ on:
     branches: [main]
 permissions:
   contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   kit:
     runs-on: ubuntu-latest

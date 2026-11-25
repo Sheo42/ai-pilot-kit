@@ -23,6 +23,7 @@ means that one.
 | [workflow.md](workflow.md) | From a need to a merge: the flow, the reviews, the independent challenge, the triage |
 | [artefacts.md](artefacts.md) | The documents the method produces and the rule that keeps each one alive |
 | [bootstrap.md](bootstrap.md) | The checklist to start a new project |
+| [ci-runners.md](ci-runners.md) | Where CI runs: hosted or self-hosted runners, one machine for several repositories |
 
 Lessons, one or two sentences each, are kept by the chronicler in
 [`docs/chronicle/lessons.md`](../chronicle/lessons.md).
