@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+1. The kit is public, under the MIT licence (`LICENSE`).
+   `scripts/kit/init.py` removes the licence from a new project, whose
+   owner chooses its own.
+2. `docs.yml` runs on the runner labels of the repository variable
+   `CI_RUNS_ON`, or on GitHub's hosted runners when it is unset; a project
+   on a self-hosted runner sets the variable instead of editing the
+   workflow. A new push to a pull request cancels its older run.
+3. `docs/method/ci-runners.md`: hosted or self-hosted runners, never a
+   self-hosted runner for a public repository, and how one machine serves
+   several repositories.
+
 ## 0.1.0 (2026-11-24)
 
 First version in its own repository. Until then the kit lived inside its

@@ -1,7 +1,9 @@
 # Document checks of the project (docs/process.md, "Verification"): unique IDs,
 # to-do range files, links, statuses, traceability; the CI scripts' tests; the
-# Markdown lint. Runs on GitHub's hosted runners; a project with its own runner
-# changes runs-on. Thin on purpose: the checks are scripts any computer can run.
+# Markdown lint. Runs on GitHub's hosted runners unless the repository variable
+# CI_RUNS_ON names other runner labels, as JSON: ["self-hosted", "linux"]
+# (docs/method/ci-runners.md). Thin on purpose: the checks are scripts any
+# computer can run.
 name: docs
 on:
   pull_request:
@@ -9,12 +11,17 @@ on:
     branches: [main]
 permissions:
   contents: read
+# A new push to a pull request cancels its older run, so the runner is not
+# busy with a commit nobody will merge; runs on main always finish.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   docs:
     # In the kit repository itself the placeholders are not filled yet: the kit's
     # own workflow (kit.yml) checks a project made from it instead.
     if: hashFiles('KIT.md') == ''
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON(vars.CI_RUNS_ON || '"ubuntu-latest"') }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
