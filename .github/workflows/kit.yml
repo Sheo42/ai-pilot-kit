@@ -22,4 +22,5 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install pytest && python3 -m pytest -q scripts/ci/tests
+      - run: pip install actionlint-py==1.7.12.25 && actionlint  # the workflows are valid before a project gets them
       - run: npx --yes markdownlint-cli2@0.18.1  # settings in .markdownlint-cli2.jsonc

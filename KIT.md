@@ -27,11 +27,13 @@ removes it from a new project.
 `.github/workflows/kit.yml` runs the CI scripts' tests, among them
 `scripts/ci/tests/test_kit_init.py`: it makes a project with
 `scripts/kit/init.py`, checks no placeholder is left, and runs that
-project's document checks. The project workflow, `docs.yml`, is skipped
-here (the placeholders are not filled). Locally:
+project's document checks, then `actionlint` on the workflows. The project
+workflow, `docs.yml`, is skipped here (its steps check for `KIT.md`; the
+placeholders are not filled). Locally:
 
 ```
 python3 -m pytest -q scripts/ci/tests
+pip install actionlint-py && actionlint
 ```
 
 ## Releases

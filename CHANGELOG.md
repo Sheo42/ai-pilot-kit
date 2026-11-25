@@ -12,6 +12,11 @@
 3. `docs/method/ci-runners.md`: hosted or self-hosted runners, never a
    self-hosted runner for a public repository, and how one machine serves
    several repositories.
+4. Fix: `docs.yml` was rejected by GitHub since 0.1.0 (`hashFiles` is not
+   allowed in a job's `if`), so a project's document checks never ran. The
+   check moves to each step's `if`. A project that copied 0.1.0 does the
+   same. The kit's CI now runs
+   `actionlint` on the workflows.
 
 ## 0.1.0 (2026-11-24)
 
