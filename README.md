@@ -51,7 +51,7 @@ not specific to its domain come back here by pull request
 | [docs/chronicle/](docs/chronicle/) | Chronicle README, agents history, lessons |
 | [docs/method/](docs/method/README.md) | Why: principles, roles, workflow, artefacts, bootstrap checklist |
 | [scripts/ci/](scripts/ci/) | Document checks, to-do view, traceability matrix, and their tests |
-| [.github/workflows/docs.yml](.github/workflows/docs.yml) | The project's document checks, on GitHub's hosted runners |
+| [.github/workflows/docs.yml](.github/workflows/docs.yml) | The project's document checks, on GitHub's hosted runners or the runner `CI_RUNS_ON` names ([docs/method/ci-runners.md](docs/method/ci-runners.md)) |
 
 ## Placeholders
 
@@ -67,3 +67,7 @@ not specific to its domain come back here by pull request
 Maintaining the kit itself: [KIT.md](KIT.md); its own to-do list:
 [kit/docs/todo/](kit/docs/todo/README.md). Versions:
 [CHANGELOG.md](CHANGELOG.md).
+
+The kit is under the MIT licence ([LICENSE](LICENSE)). A project made from
+it does not inherit it: `scripts/kit/init.py` removes the file, and the
+project's owner chooses the project's own licence, if any.

@@ -8,8 +8,9 @@ Run it once, in the new repository made with "Use this template":
 
 It fills the placeholders ({{PROJECT}}, {{OWNER}}, {{PRODUCT}}, {{STACK}},
 {{SECURITY_AREAS}}, {{DATE}}) in every text file, removes what only the kit
-repository needs (KIT.md, CHANGELOG.md, the kit's own workflow, test and
-to-do list in kit/, the kit note at the top of CLAUDE.md, this folder), writes a short README.md, and keeps KIT_VERSION so the project
+repository needs (KIT.md, CHANGELOG.md, the kit's LICENSE, the kit's own
+workflow, test and to-do list in kit/, the kit note at the top of CLAUDE.md,
+this folder), writes a short README.md, and keeps KIT_VERSION so the project
 knows which kit version it started from. Then it lists what is left to do by
 hand: every "<!-- choose: ... -->" marker.
 
@@ -27,9 +28,11 @@ from datetime import date
 from pathlib import Path
 
 KIT_ONLY_DIRS = ["kit"]
-KIT_ONLY = ["KIT.md", "CHANGELOG.md", ".github/workflows/kit.yml", "scripts/ci/tests/test_kit_init.py"]
+KIT_ONLY = ["KIT.md", "CHANGELOG.md", "LICENSE", ".github/workflows/kit.yml", "scripts/ci/tests/test_kit_init.py"]
 KIT_NOTE = re.compile(r"<!-- kit-note -->.*?<!-- /kit-note -->\n*", re.DOTALL)
 CHOOSE = re.compile(r"<!-- choose: (.*?) -->")
+# A kit placeholder, not a GitHub Actions expression such as ${{ vars.CI_RUNS_ON }}.
+PLACEHOLDER = re.compile(r"(?<!\$)\{\{[A-Z_]+\}\}")
 SKIP_DIRS = {".git", "node_modules", "__pycache__", ".pytest_cache"}
 TEXT_SUFFIXES = {".md", ".py", ".sh", ".yml", ".yaml", ".jsonc", ".json", ".txt", ""}
 
@@ -103,7 +106,7 @@ def main(argv: list[str]) -> int:
     for path in text_files(root):
         for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
             rel = path.relative_to(root)
-            if "{{" in line and "}}" in line:
+            if PLACEHOLDER.search(line):
                 left.append(f"{rel}:{number}: placeholder left: {line.strip()}")
             for match in CHOOSE.finditer(line):
                 left.append(f"{rel}:{number}: choose {match.group(1)}")
