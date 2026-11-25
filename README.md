@@ -1,13 +1,28 @@
 # AI pilot kit
 
 A way of running a software project where AI sessions do the work and one
-person, the product owner, decides. This repository is the starting point:
-the rules every session follows, seven AI roles, the coordinator's
-playbook, the document templates and the CI checks that keep them honest.
+person, the product owner, decides. The kit is what you take: the rules
+every session follows, seven AI roles, the coordinator's playbook, the
+document templates and the CI checks that keep them honest.
 
 It was written from a first project run this way, then stripped of that
 project's domain. The ideas behind it, and why each rule exists, are in
 [docs/method/](docs/method/README.md).
+
+## What you need, and what you do not
+
+1. **You need only the kit.** A new project is a copy of this template,
+   made by GitHub's **Use this template**. Everything the method needs is
+   in that copy.
+2. **You do not clone this repository.** It is where the kit itself is
+   maintained (`KIT.md`, its own CI and tests); `scripts/kit/init.py`
+   removes those parts from your copy. Your project never works here and
+   never pushes here, except to send an improvement back by pull request.
+3. **You do not need the first project.** The kit was written from it, but
+   carries its rules and lessons; nothing in a new project refers to it.
+4. **Your copy starts with its own history.** "Use this template" copies
+   the files of `main`, not the kit's commits; `KIT_VERSION` and
+   [CHANGELOG.md](CHANGELOG.md) say which kit version you started from.
 
 ## Start a project from it
 

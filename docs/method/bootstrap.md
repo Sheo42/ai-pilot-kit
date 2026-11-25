@@ -11,7 +11,9 @@ A checklist, in order. Each step says who does it.
    the AI makes is listed and dated, for the owner to confirm.
 3. **Owner:** answer the open questions by number.
 4. **Owner:** create the repository from the kit ("Use this template",
-   private) and one Claude project for it, with the repository attached.
+   private) and one Claude project for it, with the new repository
+   attached. Attach only the new repository: the kit's own repository is
+   not cloned or attached, and no earlier project is needed.
    Write the project instructions: "Always number questions and list items
    so the user can answer by number", plus the owner's language
    preferences.
