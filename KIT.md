@@ -29,16 +29,25 @@ a new project needs and what it does not.
    `docs/chronicle/lessons.md` ("Inherited from earlier projects") when it
    is not already a rule; when it is, the rule is enough.
 
+## To-do list
+
+The kit's own open items are in `kit/docs/todo/` (its README says why they
+are not in `docs/todo/`, which is a new project's first list). The
+coordinator reserves ranges as in a project (`docs/process.md`, "Parallel
+threads").
+
 ## Checks
 
 `.github/workflows/kit.yml` runs the CI scripts' tests, among them
 `scripts/ci/tests/test_kit_init.py`: it makes a project with
 `scripts/kit/init.py`, checks no placeholder is left, and runs that
-project's document checks. The project workflow, `docs.yml`, is skipped
-here (the placeholders are not filled). Locally:
+project's document checks, then `actionlint` on the workflows. The project
+workflow, `docs.yml`, is skipped here (its steps check for `KIT.md`; the
+placeholders are not filled). Locally:
 
 ```
 python3 -m pytest -q scripts/ci/tests
+pip install actionlint-py && actionlint
 ```
 
 ## Releases

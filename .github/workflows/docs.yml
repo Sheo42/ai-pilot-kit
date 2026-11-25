@@ -18,15 +18,20 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   docs:
-    # In the kit repository itself the placeholders are not filled yet: the kit's
-    # own workflow (kit.yml) checks a project made from it instead.
-    if: hashFiles('KIT.md') == ''
     runs-on: ${{ fromJSON(vars.CI_RUNS_ON || '"ubuntu-latest"') }}
+    # In the kit repository itself (it has KIT.md) the placeholders are not
+    # filled yet: the kit's own workflow (kit.yml) checks a project made from
+    # it instead, so each step after the checkout is skipped there.
+    # hashFiles works only in a step's if: in a job's if, GitHub rejects the file.
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        if: hashFiles('KIT.md') == ''
         with:
           python-version: "3.12"
       - run: bash scripts/ci/check-docs.sh
+        if: hashFiles('KIT.md') == ''
       - run: pip install pytest && python3 -m pytest -q scripts/ci/tests
+        if: hashFiles('KIT.md') == ''
       - run: npx --yes markdownlint-cli2@0.18.1  # settings in .markdownlint-cli2.jsonc
+        if: hashFiles('KIT.md') == ''
