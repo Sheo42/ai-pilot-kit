@@ -29,7 +29,8 @@ A checklist, in order. Each step says who does it.
    `scripts/ci/trace.py`.
 3. **AI:** add the project definition as `docs/project-definition.md`.
 4. **AI:** check that `.github/workflows/docs.yml` runs green on the pull
-   request.
+   request. If it must run on a self-hosted runner, the owner sets the
+   repository variable `CI_RUNS_ON` first ([ci-runners.md](ci-runners.md)).
 5. **Owner:** review and merge. From now on, merging approves.
 
 ## First week

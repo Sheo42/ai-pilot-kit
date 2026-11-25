@@ -2,10 +2,23 @@
 
 ## Unreleased
 
-1. `README.md`, "What you need, and what you do not": a new project needs
+1. The kit is public, under the MIT licence (`LICENSE`).
+   `scripts/kit/init.py` removes the licence from a new project, whose
+   owner chooses its own.
+2. `docs.yml` runs on the runner labels of the repository variable
+   `CI_RUNS_ON`, or on GitHub's hosted runners when it is unset; a project
+   on a self-hosted runner sets the variable instead of editing the
+   workflow. A new push to a pull request cancels its older run.
+3. `docs/method/ci-runners.md`: hosted or self-hosted runners, never a
+   self-hosted runner for a public repository, and how one machine serves
+   several repositories.
+4. `README.md`, "What you need, and what you do not": a new project needs
    only the copy made by "Use this template"; it does not clone the kit's
    repository and does not need the first project. `docs/method/bootstrap.md`
    and `KIT.md` say the same.
+5. `docs.yml` was invalid, so it failed at once on every push: GitHub
+   does not allow `hashFiles()` in a job's `if`. The kit check moves to
+   each step's `if`.
 
 ## 0.1.0 (2026-11-24)
 

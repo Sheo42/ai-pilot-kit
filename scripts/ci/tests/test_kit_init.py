@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+import re
 import shutil
 import subprocess
 import sys
 from pathlib import Path
 
 KIT = Path(__file__).resolve().parents[3]
+PLACEHOLDER = re.compile(r"\{\{[A-Z_]+\}\}")  # ${{ ... }} in the workflows is GitHub's, not ours
 IGNORE = shutil.ignore_patterns(".git", "__pycache__", ".pytest_cache", "node_modules")
 
 
@@ -29,8 +31,8 @@ def test_init_fills_every_placeholder_and_removes_the_kit_files(tmp_path: Path) 
     assert "choose about 15" in done.stdout  # the markers left to decide by hand are listed
     for path in repo.rglob("*"):
         if path.is_file() and path.suffix in {".md", ".py", ".sh", ".yml"}:
-            assert "{{" not in path.read_text(encoding="utf-8"), path
-    for gone in ("KIT.md", "CHANGELOG.md", "scripts/kit", ".github/workflows/kit.yml"):
+            assert not PLACEHOLDER.search(path.read_text(encoding="utf-8")), path
+    for gone in ("KIT.md", "CHANGELOG.md", "LICENSE", "scripts/kit", ".github/workflows/kit.yml"):
         assert not (repo / gone).exists(), gone
     assert (repo / "KIT_VERSION").exists()
     assert (repo / "README.md").read_text(encoding="utf-8").startswith("# Acme Fleet\n\nA web service")
