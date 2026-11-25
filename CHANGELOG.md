@@ -16,9 +16,6 @@
    only the copy made by "Use this template"; it does not clone the kit's
    repository and does not need the first project. `docs/method/bootstrap.md`
    and `KIT.md` say the same.
-5. `docs.yml` was invalid, so it failed at once on every push: GitHub
-   does not allow `hashFiles()` in a job's `if`. The kit check moves to
-   each step's `if`.
 
 ## 0.1.0 (2026-11-24)
 
