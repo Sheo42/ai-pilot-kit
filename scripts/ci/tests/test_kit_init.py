@@ -8,6 +8,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from check_docs import check_todo_files, check_todo_ids  # noqa: E402
+
 KIT = Path(__file__).resolve().parents[3]
 PLACEHOLDER = re.compile(r"\{\{[A-Z_]+\}\}")  # ${{ ... }} in the workflows is GitHub's, not ours
 IGNORE = shutil.ignore_patterns(".git", "__pycache__", ".pytest_cache", "node_modules")
@@ -32,7 +35,7 @@ def test_init_fills_every_placeholder_and_removes_the_kit_files(tmp_path: Path) 
     for path in repo.rglob("*"):
         if path.is_file() and path.suffix in {".md", ".py", ".sh", ".yml"}:
             assert not PLACEHOLDER.search(path.read_text(encoding="utf-8")), path
-    for gone in ("KIT.md", "CHANGELOG.md", "LICENSE", "scripts/kit", ".github/workflows/kit.yml"):
+    for gone in ("KIT.md", "CHANGELOG.md", "LICENSE", "scripts/kit", ".github/workflows/kit.yml", "kit"):
         assert not (repo / gone).exists(), gone
     assert (repo / "KIT_VERSION").exists()
     assert (repo / "README.md").read_text(encoding="utf-8").startswith("# Acme Fleet\n\nA web service")
@@ -57,3 +60,9 @@ def test_init_refuses_to_run_twice(tmp_path: Path) -> None:
                             "--product", "Z", "--security-areas", "W"], cwd=repo, capture_output=True,
                            text=True, check=False)
     assert again.returncode == 1 and "already a project" in again.stderr
+
+
+def test_the_kits_own_todo_list_passes_the_todo_checks() -> None:
+    """kit/docs/todo/ follows the rules of a project's docs/todo/ (kit/docs/todo/README.md)."""
+    assert check_todo_ids(KIT / "kit") == []
+    assert check_todo_files(KIT / "kit") == []
