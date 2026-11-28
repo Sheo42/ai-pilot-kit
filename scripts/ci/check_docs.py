@@ -21,6 +21,10 @@
    on a test file's first lines names a defined use case; a use case with no
    tagged test names, in its Test paragraph, the open to-do item that will
    write it.
+9. Links between documents: every requirement a "Related" row names exists
+   (and its AC, when one is named) and is not the requirement itself; every
+   ADR a "Related ADRs" row names has its file in docs/adr/. The diagrams of
+   scripts/ci/links.py draw these links.
 
 Usage: python3 scripts/ci/check_docs.py [repository root]
 Exit code 0 when all checks pass, 1 otherwise. Standard library only.
@@ -299,7 +303,7 @@ def check_statuses(root: Path) -> list[str]:
     return errors
 
 
-UC_HEADING = re.compile(r"^###\s*(UC-\d{2}):\s*\S")
+UC_HEADING = re.compile(r"^###\s*(UC-\d{2}):\s*(\S.*?)\s*$")
 UC_LOOSE = re.compile(r"^#{1,6}\s*UC-\d")  # a heading meant as a use case, well formed or not
 UC_INDEX_ROW = re.compile(r"^\|\s*(UC-\d{2})\s*\|")
 UC_ID = re.compile(r"\bUC-\d{2}\b")
@@ -316,6 +320,8 @@ class UseCases:
     planned: dict[str, set[str]] = field(default_factory=lambda: defaultdict(set))  # UC -> TODOs in its Test paragraph
     index: dict[str, int] = field(default_factory=dict)  # UC -> line of its Index row
     mentions: list[tuple[int, str, str]] = field(default_factory=list)  # (line, REQ, AC) outside the Gaps
+    titles: dict[str, str] = field(default_factory=dict)  # UC -> title
+    links: dict[str, list[str]] = field(default_factory=lambda: defaultdict(list))  # UC -> REQ or REQ.AC, Gaps left out
     errors: list[str] = field(default_factory=list)
 
 
@@ -329,6 +335,7 @@ def read_use_cases(path: Path) -> UseCases:
         if heading:
             current, label = heading.group(1), ""
             found.headings[current].append(where)
+            found.titles.setdefault(current, heading.group(2))
             continue
         if UC_LOOSE.match(line):
             found.errors.append(f"{where}: a use case heading is written \"### UC-NN: Title\"")
@@ -343,7 +350,25 @@ def read_use_cases(path: Path) -> UseCases:
             found.planned[current].update(TODO_MENTION.findall(line))
         if label != "Gaps":  # a gap may name a requirement that is still in an open PR
             found.mentions += [(number, req, ac) for req, ac in REQ_MENTION.findall(line)]
+            if current:
+                for req, ac in REQ_MENTION.findall(line):
+                    link = f"{req}.{ac}" if ac else req
+                    if link not in found.links[current]:
+                        found.links[current].append(link)
     return found
+
+
+def uc_tags(root: Path) -> list[tuple[str, str, int]]:
+    """The `uc:` tags on the first lines of the test files: (UC, file, line)."""
+    tags: list[tuple[str, str, int]] = []
+    for test in files(root, (".ts", ".tsx", ".py")):
+        rel = test.relative_to(root)
+        if rel.parts[:2] == ("scripts", "ci"):
+            continue  # the checks and their own tests
+        for number, line in enumerate(text_of(test).splitlines()[:UC_TAG_LINES], start=1):
+            if tag := UC_TAG.match(line):
+                tags += [(uc, rel.as_posix(), number) for uc in UC_ID.findall(tag.group(1))]
+    return tags
 
 
 def check_use_cases(root: Path) -> list[str]:
@@ -363,16 +388,10 @@ def check_use_cases(root: Path) -> list[str]:
         elif ac and ac not in requirements[req].acs:
             errors.append(f"docs/use-cases.md:{number}: {req} has no {ac}")
     tagged: set[str] = set()
-    for test in files(root, (".ts", ".tsx", ".py")):
-        rel = test.relative_to(root)
-        if rel.parts[:2] == ("scripts", "ci"):
-            continue  # the checks and their own tests
-        for number, line in enumerate(text_of(test).splitlines()[:UC_TAG_LINES], start=1):
-            if tag := UC_TAG.match(line):
-                for uc in UC_ID.findall(tag.group(1)):
-                    tagged.add(uc)
-                    if uc not in found.headings:
-                        errors.append(f"{rel}:{number}: tag names {uc}, which docs/use-cases.md does not define")
+    for uc, rel, number in uc_tags(root):
+        tagged.add(uc)
+        if uc not in found.headings:
+            errors.append(f"{rel}:{number}: tag names {uc}, which docs/use-cases.md does not define")
     open_todos = {item.id for todo in range_files(root) for item in read_items(todo)[0]
                   if item.cells.get("Status") in OPEN_STATUSES}
     for uc, places in sorted(found.headings.items()):
@@ -381,6 +400,27 @@ def check_use_cases(root: Path) -> list[str]:
         if not found.planned[uc] & open_todos:
             errors.append(f"{places[0]}: {uc} has no test tagged \"uc: {uc}\" and its Test paragraph names "
                           "no open to-do item that will write one")
+    return errors
+
+
+ADR_MENTION = re.compile(r"\bADR-(\d{4})\b")
+
+
+def check_related(root: Path) -> list[str]:
+    requirements = read_requirements(root)
+    adrs = {match.group(1) for path in (root / "docs" / "adr").glob("*.md") if (match := ADR_FILE.match(path.name))}
+    errors = []
+    for req in sorted(requirements.values(), key=lambda r: r.id):
+        for other, ac in REQ_MENTION.findall(req.fields.get("Related", "")):
+            if other == req.id:
+                errors.append(f"{req.where}: {req.id} names itself in Related")
+            elif other not in requirements:
+                errors.append(f"{req.where}: Related names {other}, which docs/requirements/ does not define")
+            elif ac and ac not in requirements[other].acs:
+                errors.append(f"{req.where}: Related names {other}.{ac}: {other} has no {ac}")
+        for number in ADR_MENTION.findall(req.fields.get("Related ADRs", "")):
+            if number not in adrs:
+                errors.append(f"{req.where}: Related ADRs names ADR-{number}, which has no file in docs/adr/")
     return errors
 
 
@@ -393,6 +433,7 @@ CHECKS = [
     ("Relative links resolve", check_relative_links),
     ("Merged requirements and ADRs are not left Draft or Proposed", check_statuses),
     ("Use cases: unique, real requirements and ACs, every one tested or planned", check_use_cases),
+    ("Related requirements and ADRs exist", check_related),
 ]
 
 

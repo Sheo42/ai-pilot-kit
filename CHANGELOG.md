@@ -22,6 +22,14 @@
    repository and does not need the first project. `docs/method/bootstrap.md`
    and `KIT.md` say the same.
 
+6. Link diagrams: `scripts/ci/links.py` draws, in Mermaid, each use case
+   with its ACs and tests, each module's requirements with their `Related`
+   requirements and ADRs, and the to-do items that block others, coloured
+   by test coverage. CI puts them in the run summary; the PR reviewer
+   pastes a PR's own into its merge summary. `check_docs.py` now fails on a
+   `Related` or `Related ADRs` row naming something that does not exist
+   (`docs/traceability.md`, "Diagrams of the links").
+
 ## 0.1.0 (2026-11-24)
 
 First version in its own repository. Until then the kit lived inside its
