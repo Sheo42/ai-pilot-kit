@@ -20,5 +20,7 @@ there are several parts. -->
 
 ## How to know it is done
 
-<!-- What the other side will check: for example "the rule is in
-docs/process.md and the pull request that adds it closes this issue". -->
+<!-- What the asking side will check once the work is done: for example
+"the rule is in docs/process.md". The receiving thread closes this issue
+when it has taken it into account, with a comment naming the pull request
+or to-do item that carries the work. -->

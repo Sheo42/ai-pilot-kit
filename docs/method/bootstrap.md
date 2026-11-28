@@ -49,6 +49,9 @@ A checklist, in order. Each step says who does it.
 4. **Owner:** triage the findings by number.
 5. **AI:** build the walking skeleton: the thinnest end-to-end version,
    with tests tagged by acceptance criterion and CI green.
+6. **AI (coordinator):** set up the watch of the code host, including
+   `sync` issues, as a scheduled task at times the owner chooses
+   (`docs/coordinator.md`, section 10, item 1).
 
 ## Every session after that
 
