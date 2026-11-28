@@ -58,6 +58,8 @@
     row may name `ADR-NNNN to come` for a reserved number, which passes
     the check and is not drawn (`docs/traceability.md`, "Diagrams of the
     links").
+11. Fix: in the link diagrams, two names that differ only by `-` and `_`
+    (two test files, say) shared one box; each now has its own.
 
 ## 0.1.0 (2026-11-24)
 

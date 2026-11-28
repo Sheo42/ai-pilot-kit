@@ -135,6 +135,13 @@ def test_everything_without_only(repo: Path) -> None:
     assert out.count("```mermaid") == 4
 
 
+def test_names_differing_by_dash_and_underscore_get_two_boxes() -> None:
+    diagram = links.Diagram()
+    a, b = diagram.node("test e2e/a-b.ts", "e2e/a-b.ts"), diagram.node("test e2e/a_b.ts", "e2e/a_b.ts")
+    assert (a, b) == ("test_e2e_a_b_ts", "test_e2e_a_b_ts_2")
+    assert diagram.node("test e2e/a_b.ts", "again") == b and len(diagram.nodes) == 2
+
+
 def test_labels_are_safe_and_short() -> None:
     text = links.label('A "quoted" `title`\nthat goes on and on, far past the sixty characters of a box')
     assert text == "A 'quoted' 'title' that goes on and on, far past the sixty…"
