@@ -12,7 +12,7 @@
 | Source | <who asked, where: meeting, doc, message> |
 | Users | <organization type and role, e.g. Customer admin / Field technician> |
 | Related | <other REQ IDs> |
-| Related ADRs | <ADR IDs, filled by the architect> |
+| Related ADRs | <ADR IDs, filled by the architect; `ADR-NNNN to come` for a reserved number> |
 
 **Statement.** As a <user>, I need <capability> so that <value>.
 (For non-functional requirements: The system shall <measurable property>.)

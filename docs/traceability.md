@@ -22,13 +22,20 @@ coverage counts make every parallel pull request conflict.
 `scripts/ci/links.py` draws the links as Mermaid diagrams, which GitHub
 shows as pictures, on a phone too: one per use case (its ACs and their
 tests), one per module (the requirements, their `Related` requirements and
-`Related ADRs`), and one of the to-do items that block others. Each AC and
+`Related ADRs`), and one of the open to-do items that wait on others, with
+what they wait on (a done item's blockers are left out, so it shrinks as
+items close). Each AC and
 requirement is coloured by its coverage here: green covered, orange partly,
 red not at all. CI puts them in the run summary, after the matrix; the PR
 reviewer pastes the ones a PR changes into its merge summary
-(`links.py --only UC-03,MON,TODO`). `scripts/ci/check_docs.py` fails on a
+(`links.py --only UC-03,MON,REQ-MON-002.AC1,TODO`); an ID that names no
+diagram fails, so a summary does not go out without them. Past Mermaid's
+limits, which GitHub keeps (50,000 characters or 500 links), GitHub shows an
+error box instead of a diagram, so such a diagram is named with its sizes
+instead: draw a part of it with `--only`. `scripts/ci/check_docs.py` fails on a
 `Related` or `Related ADRs` row naming a requirement, an AC or an ADR that
-does not exist.
+does not exist; `ADR-NNNN to come` names an ADR whose number is reserved
+but not written yet, which passes and is not drawn.
 
 ## What CI checks
 

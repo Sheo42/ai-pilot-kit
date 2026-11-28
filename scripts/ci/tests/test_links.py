@@ -36,6 +36,8 @@ TODOS = (
     "| TODO-010 | Draw the map | Test | P2 | developer | — | Done 2026-11-20 | — |\n"
     "| TODO-011 | List the vans | Test | P2 | developer | TODO-010 | Not started | — |\n"
     "| TODO-012 | Alarm sound | Test | P3 | developer | — | Not started | — |\n"
+    "| TODO-013 | Old map | Test | P3 | developer | — | Done 2026-11-18 | — |\n"
+    "| TODO-014 | Map tiles, see #12 | Test | P3 | developer | TODO-013 | Done 2026-11-21 | — |\n"
 )
 
 
@@ -87,6 +89,43 @@ def test_todo_diagram_draws_blockers_only(repo: Path) -> None:
     assert 'TODO_010["✔ TODO-010: Draw the map"]' in out
     assert 'TODO_011["✘ TODO-011: List the vans"]' in out
     assert "TODO_012" not in out  # blocks nothing, blocked by nothing
+    assert "TODO_013" not in out and "TODO_014" not in out  # a done item's blockers are left out
+
+
+def test_todo_diagram_says_when_no_open_item_waits(repo: Path) -> None:
+    write(repo, "docs/todo/010-019.md", TODOS.replace("| Not started | — |\n", "| Done 2026-11-22 | — |\n"))
+    out = links.render(repo, {"TODO"})
+    assert "```mermaid" not in out and "No open item waits on another." in out
+
+
+def test_only_with_an_ac_selects_its_module(repo: Path) -> None:
+    out = links.render(repo, {"REQ-MON-002.AC1"})
+    assert "### Module MON" in out and "### Module ALM" not in out
+
+
+def test_only_naming_no_diagram_is_an_error(repo: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    with pytest.raises(links.UnknownIds, match="REQ-MON-999, UC-3 names no diagram"):
+        links.render(repo, {"UC-01", "UC-3", "REQ-MON-999"})
+    assert links.main([str(repo), "--only", "MON,UC-3"]) == 1
+    captured = capsys.readouterr()
+    assert captured.out == "" and "UC-3 names no diagram" in captured.err
+    assert links.main([str(repo), "--only", "MON,TODO"]) == 0
+
+
+def test_a_diagram_too_big_is_named_not_drawn(repo: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    diagram = links.Diagram()
+    diagram.edge(diagram.node("a", "A"), "-->", diagram.node("b", "B"))
+    assert links.drawn(diagram)[0] == "```mermaid"
+    monkeypatch.setattr(links, "MAX_EDGES", 0)
+    assert links.drawn(diagram) == [
+        "Too big to draw: " + f"{len(chr(10).join(diagram.render()[1:-1])):,}"
+        + " characters and 1 links, past Mermaid's 50,000 and 0. Draw a part of it with `scripts/ci/links.py --only`."
+    ]
+    monkeypatch.setattr(links, "MAX_EDGES", 500)
+    monkeypatch.setattr(links, "MAX_TEXT", 10)
+    assert links.drawn(diagram)[0].startswith("Too big to draw:")
+    out = links.render(repo, {"MON"})
+    assert "### Module MON" in out and "```mermaid" not in out and "Too big to draw:" in out
 
 
 def test_everything_without_only(repo: Path) -> None:
@@ -100,6 +139,13 @@ def test_labels_are_safe_and_short() -> None:
     text = links.label('A "quoted" `title`\nthat goes on and on, far past the sixty characters of a box')
     assert text == "A 'quoted' 'title' that goes on and on, far past the sixty…"
     assert len(text) <= links.TITLE_LIMIT
+    assert links.label("Fix #12 <b>now</b> & go") == "Fix #35;12 #lt;b#gt;now#lt;/b#gt; & go"
+    assert links.label("x" * 59 + "<>") == "x" * 59 + "…"  # cut first, so no entity code is cut
+
+
+def test_todo_labels_escape_pr_numbers(repo: Path) -> None:
+    write(repo, "docs/todo/010-019.md", TODOS.replace("List the vans", "List the vans after #12"))
+    assert 'TODO_011["✘ TODO-011: List the vans after #35;12"]' in links.render(repo, {"TODO"})
 
 
 def test_empty_project_prints_only_the_legend(tmp_path: Path) -> None:
@@ -109,6 +155,15 @@ def test_empty_project_prints_only_the_legend(tmp_path: Path) -> None:
 
 def test_related_check_passes_on_real_links(repo: Path) -> None:
     assert check_docs.check_related(repo) == []
+
+
+def test_an_adr_to_come_is_accepted_and_not_drawn(repo: Path) -> None:
+    write(repo, "docs/requirements/alarms.md", "# Alarms\n\n" + requirement(
+        "REQ-ALM-001", "Raise an alarm", adrs="ADR-0001, ADR-0042 to come", acs=1
+    ))
+    assert check_docs.check_related(repo) == []
+    out = links.render(repo, {"ALM"})
+    assert "REQ_ALM_001 -.-> ADR_0001" in out and "ADR_0042" not in out
 
 
 def test_related_check_reports_broken_links(repo: Path) -> None:
