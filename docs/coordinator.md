@@ -156,7 +156,8 @@ will be thrown away.
 
 1. **Number everything**: every question and every list item, each question
    with a suggested answer, so {{OWNER}} can answer "1 yes, 2 as
-   suggested".
+   suggested". Suggested answers go on questions only, never on plain
+   steps or instructions.
 2. **Lead with the decision or the result**, in a few lines. {{OWNER}}
    reads from a phone between other things.
 3. **Count cost in pull requests and minutes of review**, never in hours of

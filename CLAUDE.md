@@ -31,8 +31,9 @@ Rules that apply to every role:
    PR approves the requirements and accepts the ADRs it contains.
 2. Cost is counted in pull requests and minutes of {{OWNER}}'s review,
    never in hours or days of work.
-3. Number every question and list item for {{OWNER}}, and give a suggested
-   answer, so {{OWNER}} can answer by number ("1 yes, 2 as suggested").
+3. Number every question and list item for {{OWNER}}, and give each
+   question a suggested answer, so {{OWNER}} can answer by number ("1 yes,
+   2 as suggested"); plain steps and instructions get none.
 4. Every piece of code traces to a requirement ID; every acceptance
    criterion traces to a test (`docs/traceability.md`).
 5. Never skip, disable or weaken a test to get a green build.

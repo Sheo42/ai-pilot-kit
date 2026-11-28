@@ -60,6 +60,11 @@
     links").
 11. Fix: in the link diagrams, two names that differ only by `-` and `_`
     (two test files, say) shared one box; each now has its own.
+12. Wording: suggested answers go on questions (and options and findings)
+    only, never on plain steps or instructions (`CLAUDE.md` rule 3,
+    `docs/coordinator.md` section 7, `docs/method/workflow.md`,
+    `docs/method/principles.md`). The old wording, "each list item with a
+    suggested answer", could be read as covering steps too.
 
 ## 0.1.0 (2026-11-24)
 

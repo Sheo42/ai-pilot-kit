@@ -16,8 +16,9 @@ check it against these.
    cost too.
 
 3. **Everything is numbered so it can be answered by number.** Questions,
-   options, findings and list items are numbered, each with a suggested
-   answer; the owner answers "1 yes, 2 no, 3 as suggested". Requirements,
+   options, findings and list items are numbered; each question, option
+   and finding comes with a suggested answer (plain steps and instructions
+   do not); the owner answers "1 yes, 2 no, 3 as suggested". Requirements,
    acceptance criteria, ADRs and to-do items have stable IDs that are never
    reused.
 
