@@ -79,9 +79,10 @@ The owner's main work is answering numbered lists:
 - challenge findings ("all as suggested except 10"),
 - decisions in the to-do list ("Waiting on" the owner).
 
-The method works when each list arrives with a suggested answer, so the
-owner can confirm most items in a word and spend time only on the few that
-need judgement.
+The method works when each question in a list arrives with a suggested
+answer, so the owner can confirm most items in a word and spend time only
+on the few that need judgement. Plain steps and instructions are numbered
+too, but carry no suggested answer: there is nothing to answer.
 
 ## 6. Closing a session
 
