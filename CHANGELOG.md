@@ -39,8 +39,9 @@
    something with a `sync` issue made from `.github/ISSUE_TEMPLATE/sync.md`
    (where it comes from, what it wants, how to know it is done). The watch
    reports `sync` issues even when the owner's own account opened them, and
-   the pull request that does the work closes the issue
-   (`docs/coordinator.md`, section 10, items 4 to 6). A new project creates
+   the receiving thread closes the issue once it has taken it into
+   account, with a comment naming the pull request or to-do item that
+   carries the work (`docs/coordinator.md`, section 10, items 4 to 6). A new project creates
    the `sync` label (`docs/method/bootstrap.md`).
 9. The watch of the code host: a scheduled task a few times a day that
    reads the last check time from a state file, searches what changed

@@ -234,9 +234,13 @@ thread forgets them most often.
    {{OWNER}}'s own account. Why: both projects usually post under that
    account, and a watch that skips the owner's own issues would never
    see them.
-6. **The pull request that does the work closes the issue** (`Closes #N`
-   in its description). An ask that will not be done gets a comment with
-   the reason, and {{OWNER}} closes it.
+6. **The receiving thread closes the issue** once it has seen it and
+   taken it into account, with a comment that says where the ask now
+   lives: the pull request that does it, or a to-do item when the work
+   comes later, or the reason when it will not be done. Why: an open
+   `sync` issue means "nobody has picked this up yet", so the watch keeps
+   reporting it until a thread does; the to-do list, not the issue, then
+   tracks the work.
 
 ## 11. Keeping this playbook alive
 
