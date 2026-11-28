@@ -42,6 +42,12 @@
    the pull request that does the work closes the issue
    (`docs/coordinator.md`, section 10, items 4 to 6). A new project creates
    the `sync` label (`docs/method/bootstrap.md`).
+9. The watch of the code host: a scheduled task a few times a day that
+   reads the last check time from a state file, searches what changed
+   (issues, pull request comments and reviews, `sync` issues), posts one
+   numbered message, and never writes to the code host
+   (`docs/coordinator.md`, section 10, item 1; set up in the first week,
+   `docs/method/bootstrap.md`).
 
 ## 0.1.0 (2026-11-24)
 
