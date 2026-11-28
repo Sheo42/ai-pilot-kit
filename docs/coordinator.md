@@ -211,6 +211,19 @@ thread forgets them most often.
 3. **Long runs** (the full suite, a build of more than a few minutes) go
    where {{OWNER}} chose once (a computer, CI, a night run), recorded in
    project memory.
+4. **Issues between projects.** One project asks another (or the kit) for
+   something with an issue on the other's repository, labelled `sync` and
+   made from the "Sync request" template (`.github/ISSUE_TEMPLATE/sync.md`):
+   where it comes from, what it wants, how to know it is done. Why: an
+   issue lasts, both sides can link to it, and a thread can act on it
+   without asking {{OWNER}}.
+5. **The watch reports every open `sync` issue**, even one opened from
+   {{OWNER}}'s own account. Why: both projects usually post under that
+   account, and a watch that skips the owner's own issues would never
+   see them.
+6. **The pull request that does the work closes the issue** (`Closes #N`
+   in its description). An ask that will not be done gets a comment with
+   the reason, and {{OWNER}} closes it.
 
 ## 11. Keeping this playbook alive
 

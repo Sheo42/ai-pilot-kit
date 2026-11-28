@@ -31,7 +31,10 @@ A checklist, in order. Each step says who does it.
 4. **AI:** check that `.github/workflows/docs.yml` runs green on the pull
    request. If it must run on a self-hosted runner, the owner sets the
    repository variable `CI_RUNS_ON` first ([ci-runners.md](ci-runners.md)).
-5. **Owner:** review and merge. From now on, merging approves.
+5. **AI:** create the `sync` label on the repository, so issues made from
+   the "Sync request" template get it (`docs/coordinator.md`,
+   section 10). A label is not copied by "Use this template".
+6. **Owner:** review and merge. From now on, merging approves.
 
 ## First week
 

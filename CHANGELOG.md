@@ -35,6 +35,13 @@
    check; `docs/templates/mutation-ledger.md` is the file each run fills.
    `docs/process.md`, the tester agent, the artefacts table and the
    glossary point to them.
+8. Issues between projects: a project asks another, or the kit, for
+   something with a `sync` issue made from `.github/ISSUE_TEMPLATE/sync.md`
+   (where it comes from, what it wants, how to know it is done). The watch
+   reports `sync` issues even when the owner's own account opened them, and
+   the pull request that does the work closes the issue
+   (`docs/coordinator.md`, section 10, items 4 to 6). A new project creates
+   the `sync` label (`docs/method/bootstrap.md`).
 
 ## 0.1.0 (2026-11-24)
 
