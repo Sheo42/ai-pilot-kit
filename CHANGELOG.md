@@ -49,6 +49,15 @@
    numbered message, and never writes to the code host
    (`docs/coordinator.md`, section 10, item 1; set up in the first week,
    `docs/method/bootstrap.md`).
+10. Link diagrams at a large project's size: the to-do diagram draws only
+    the open items that wait on others and what they wait on; a diagram past
+    Mermaid's limits (50,000 characters or 500 links) is named with its
+    sizes instead of drawn, since GitHub would show an error box; an
+    `--only` ID that names no diagram fails (exit code 1), and an AC
+    selects its module; labels escape `#`, `<` and `>`; a `Related ADRs`
+    row may name `ADR-NNNN to come` for a reserved number, which passes
+    the check and is not drawn (`docs/traceability.md`, "Diagrams of the
+    links").
 
 ## 0.1.0 (2026-11-24)
 

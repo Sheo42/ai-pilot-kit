@@ -23,8 +23,9 @@
    write it.
 9. Links between documents: every requirement a "Related" row names exists
    (and its AC, when one is named) and is not the requirement itself; every
-   ADR a "Related ADRs" row names has its file in docs/adr/. The diagrams of
-   scripts/ci/links.py draw these links.
+   ADR a "Related ADRs" row names has its file in docs/adr/, unless it is
+   written "ADR-NNNN to come" (its number reserved, the ADR not written
+   yet). The diagrams of scripts/ci/links.py draw these links.
 
 Usage: python3 scripts/ci/check_docs.py [repository root]
 Exit code 0 when all checks pass, 1 otherwise. Standard library only.
@@ -403,7 +404,12 @@ def check_use_cases(root: Path) -> list[str]:
     return errors
 
 
-ADR_MENTION = re.compile(r"\bADR-(\d{4})\b")
+ADR_MENTION = re.compile(r"\bADR-(\d{4})\b(\s+to come\b)?")
+
+
+def related_adrs(text: str) -> list[str]:
+    """The ADR numbers a "Related ADRs" row names, without the ones "to come"."""
+    return [number for number, to_come in ADR_MENTION.findall(text) if not to_come]
 
 
 def check_related(root: Path) -> list[str]:
@@ -418,7 +424,7 @@ def check_related(root: Path) -> list[str]:
                 errors.append(f"{req.where}: Related names {other}, which docs/requirements/ does not define")
             elif ac and ac not in requirements[other].acs:
                 errors.append(f"{req.where}: Related names {other}.{ac}: {other} has no {ac}")
-        for number in ADR_MENTION.findall(req.fields.get("Related ADRs", "")):
+        for number in related_adrs(req.fields.get("Related ADRs", "")):
             if number not in adrs:
                 errors.append(f"{req.where}: Related ADRs names ADR-{number}, which has no file in docs/adr/")
     return errors
