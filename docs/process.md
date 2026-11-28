@@ -289,7 +289,8 @@ project keeps its own copy and adapts it freely. A change to this file,
 `docs/coordinator.md`, `CLAUDE.md`, an agent or a CI script that is not
 specific to this domain is also proposed to the kit, by a pull request on
 the kit repository or, when that cannot be done in the same task, a
-`Process` to-do item. When the kit gains a rule this project wants, a pull
+`sync` issue on the kit repository (`docs/coordinator.md`, section 10) or
+a `Process` to-do item. When the kit gains a rule this project wants, a pull
 request takes it and updates `KIT_VERSION` only if it takes the whole
 release.
 

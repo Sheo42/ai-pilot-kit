@@ -44,6 +44,7 @@ alphabetically within each section.
 | Stop the line | A red main branch or a stuck pull request is fixed before new work starts |
 | Skill, verify skill | A packaged set of instructions a Claude session loads for one kind of task (`.claude/skills/<name>/SKILL.md`); the `verify` skill holds the checks run before each commit |
 | Subagent (role) | A role defined in `.claude/agents/` that a session can call for a task, with its own instructions and tools |
+| Sync issue | An issue one project opens on another project's repository (or the kit's) to ask for something, labelled `sync` and made from the "Sync request" template: where it comes from, what it wants, how to know it is done. The watch reports it even when the owner's own account opened it; the pull request that does the work closes it (`docs/coordinator.md`, section 10) |
 | Traceability | The link from each requirement and AC to the tests that prove it, generated from the test tags, never edited by hand |
 | Triage | The owner's call on each finding or question, by number: accept, defer (with a phase) or reject (with a reason) |
 | Use case, UC | One person's whole task across features, step by step: actor, goal, starting state, main steps with what the person sees, other paths, the requirement ACs it crosses and its test. `UC-NN` in `docs/use-cases.md`; each one is a browser journey or an integration scenario tagged `uc: UC-NN` (`docs/process.md`, "Use cases") |
