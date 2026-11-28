@@ -44,7 +44,11 @@ most 10 lines: what changes, which requirements, each reviewer's verdict,
 risks, to-do items added, and the bug review: open `Bug` rows the PR
 touches, closes and adds, with their priority; a new P1 left open is
 `Changes required`. Any decision {{OWNER}} must take is a numbered
-question with a suggested answer.
+question with a suggested answer. When the PR adds or changes a use case,
+a requirement's links or a `Blocked by`, add below the summary the diagrams
+of what it touches: `python3 scripts/ci/links.py --only <UC-NN,MODULE,TODO>`
+(`docs/traceability.md`, "Diagrams of the links"); they do not count in the
+10 lines.
 
 ## Boundaries
 

@@ -194,7 +194,8 @@ Every PR description has:
 A requirement tests one feature; a use case is one person's whole task
 across features: actor, goal, starting state, main steps (what the person
 does and what they see), other paths (error, refusal), the requirement ACs
-it crosses and its test. Kept in `docs/use-cases.md` (`UC-NN`) by the
+it crosses and its test (a diagram per use case: `docs/traceability.md`,
+"Diagrams of the links"). Kept in `docs/use-cases.md` (`UC-NN`) by the
 business analyst, linked to requirements, never repeating them. Each use
 case is tested by browser journeys or integration scenarios whose files carry
 `uc: UC-NN`; the list of use cases is the list of key journeys. A PR that

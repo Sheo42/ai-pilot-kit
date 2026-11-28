@@ -64,7 +64,7 @@ from pathlib import Path
 
 REQ_HEADING = re.compile(r"^#{1,6}\s*(REQ-[A-Z]+-\d{3}):\s*(.*?)\s*$")
 ANY_HEADING = re.compile(r"^(#{1,6})\s")
-FIELD_ROW = re.compile(r"^\|\s*(Category|Priority|Phase|Status|Related ADRs)\s*\|\s*([^|]*?)\s*\|\s*$")
+FIELD_ROW = re.compile(r"^\|\s*(Category|Priority|Phase|Status|Related ADRs|Related)\s*\|\s*([^|]*?)\s*\|\s*$")
 AC_LINE = re.compile(r"^- \*\*(AC\d+)\*\*\s*\(method:\s*([A-Za-z]+)")
 TAG_ID = re.compile(r"\bREQ-[A-Z]+-\d{3}(?:\.AC\d+)?\b")
 AC_ID = re.compile(r"\bREQ-[A-Z]+-\d{3}\.AC\d+\b")  # in titles and messages, a bare REQ-XXX-NNN is a mention
