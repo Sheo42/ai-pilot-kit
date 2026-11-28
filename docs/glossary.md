@@ -27,6 +27,7 @@ alphabetically within each section.
 | Independent challenge | A review of a big decision by a fresh session on another model, reading only the repository, with numbered findings the owner triages one by one |
 | Judge file | A file that decides whether a change is good: CI, test and lint settings, agents, skills, the process, the tests themselves. A PR that changes one says so, and the PR reviewer reads the change for weakening |
 | Local test scope | A session runs only the tests and end-to-end journeys its change touches; the full suite is CI's run. The tests cost no tokens; setting up the stack and reading its output do |
+| Link diagram, Mermaid | A picture of the links between documents (use case to ACs and tests, requirement to requirement and ADR, to-do to to-do), written in Mermaid, a text format GitHub draws as a diagram; made by `scripts/ci/links.py` (`docs/traceability.md`, "Diagrams of the links") |
 | Merge batch | Two or three low-risk pull requests merged together into one branch with the newest `main`, tested by one CI run, merged by the owner as one |
 | Merge order | The order, listed for the owner, in which open pull requests merge one at a time; only the next one merges `main` into its branch, just before its turn |
 | Merge summary | The PR reviewer's short, plain summary of a PR and its review verdicts, for the owner |
