@@ -103,13 +103,22 @@ class Diagram:
 
     def __init__(self) -> None:
         self.nodes: dict[str, tuple[str, str, str]] = {}  # id -> (label, shape, class)
+        self.idents: dict[str, str] = {}  # name -> id
         self.edges: list[str] = []
 
     def node(self, name: str, text: str, state: str = "other", shape: str = "box") -> str:
-        ident = node_id(name)
-        if ident not in self.nodes:
-            sign = SIGN.get(state)
-            self.nodes[ident] = (f"{sign} {text}" if sign else text, shape, state)
+        """The node of a name, declared the first time. Two names that give the same
+        ID (`a-b.ts` and `a_b.ts`) get two boxes: the second ID takes a number."""
+        if name in self.idents:
+            return self.idents[name]
+        ident = base = node_id(name)
+        number = 1
+        while ident in self.nodes:
+            number += 1
+            ident = f"{base}_{number}"
+        sign = SIGN.get(state)
+        self.nodes[ident] = (f"{sign} {text}" if sign else text, shape, state)
+        self.idents[name] = ident
         return ident
 
     def edge(self, a: str, arrow: str, b: str) -> None:
