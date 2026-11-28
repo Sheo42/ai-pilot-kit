@@ -120,7 +120,8 @@ team thinks about verification", claude.dev blog, 2026-11-16).
    baseline at the first gate after the skeleton, for information, then
    at every later gate every survivor and every mutant no test reaches in
    the critical modules triaged, the noise cut in the tool, the verdicts
-   kept in a ledger and a sample of them checked by a fresh session: the
+   kept in a ledger and a sample of them checked by a fresh session (how,
+   and the ledger: `docs/mutation/README.md`): the
    tests are written by the AI too, so they are checked by something that
    does not trust them, and so is the triage. (The first project's
    baseline found 227 real gaps among 364 survivors in its critical

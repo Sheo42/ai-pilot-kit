@@ -31,6 +31,8 @@ alphabetically within each section.
 | Merge order | The order, listed for the owner, in which open pull requests merge one at a time; only the next one merges `main` into its branch, just before its turn |
 | Merge summary | The PR reviewer's short, plain summary of a PR and its review verdicts, for the owner |
 | MoSCoW | Priority scale: Must, Should, Could, Won't |
+| Mutation test, mutant, survivor | A tool changes one line of the code on purpose (a mutant) and runs the tests; a mutant no test notices is a survivor, one no test runs is not reached. Each one in a critical module gets a verdict: Gap, Bug, Equivalent or Accepted (`docs/mutation/README.md`) |
+| Mutation ledger | The file of one mutation run, `docs/mutation/YYYY-MM-DD-<scope>.md`: its counts, a verdict per survivor and unreached mutant, and a fresh session's check of a sample of them |
 | Number range | A block of to-do, requirement, ADR or migration numbers the coordinator reserves for one thread when it starts, so parallel branches never write the same ID; unused numbers stay unused |
 | Phase gate | The checks that end a roadmap phase; the next phase starts only when they pass |
 | Range file | The file of the to-do list that holds one number range, `docs/todo/540-549.md`; created by the thread that got the range, so parallel pull requests never add rows at the same place |
