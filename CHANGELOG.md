@@ -21,12 +21,6 @@
    only the copy made by "Use this template"; it does not clone the kit's
    repository and does not need the first project. `docs/method/bootstrap.md`
    and `KIT.md` say the same.
-6. Mutation tests: `docs/mutation/README.md` says when to run them, which
-   modules are critical, how to set up the tool and cut its noise, the four
-   verdicts (Gap, Bug, Equivalent, Accepted) and the fresh session's sample
-   check; `docs/templates/mutation-ledger.md` is the file each run fills.
-   `docs/process.md`, the tester agent, the artefacts table and the
-   glossary point to them.
 
 6. Link diagrams: `scripts/ci/links.py` draws, in Mermaid, each use case
    with its ACs and tests, each module's requirements with their `Related`
@@ -35,6 +29,12 @@
    pastes a PR's own into its merge summary. `check_docs.py` now fails on a
    `Related` or `Related ADRs` row naming something that does not exist
    (`docs/traceability.md`, "Diagrams of the links").
+7. Mutation tests: `docs/mutation/README.md` says when to run them, which
+   modules are critical, how to set up the tool and cut its noise, the four
+   verdicts (Gap, Bug, Equivalent, Accepted) and the fresh session's sample
+   check; `docs/templates/mutation-ledger.md` is the file each run fills.
+   `docs/process.md`, the tester agent, the artefacts table and the
+   glossary point to them.
 
 ## 0.1.0 (2026-11-24)
 
