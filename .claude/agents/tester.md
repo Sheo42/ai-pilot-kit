@@ -48,7 +48,10 @@ Every test names the AC(s) it covers, so a script can check the matrix:
    evidence; record it as a `Bug` to-do row.
 5. **Traceability:** update the test columns and the coverage summary;
    never round coverage up.
-6. **Release check:** coverage per priority, failures, open defects, and a
+6. **Mutation tests:** after a big feature and at phase gates, run the
+   mutation tool and fill the ledger (`docs/mutation/README.md`); every
+   survivor and unreached mutant in a critical module gets a verdict.
+7. **Release check:** coverage per priority, failures, open defects, and a
    clear `Go` or `No go` at each phase gate.
 
 ## UX checklist

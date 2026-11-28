@@ -16,6 +16,7 @@ alive.
 | To-do list | `docs/todo/`, one file per number range | Every role | Every task updates it; CI checks IDs, ranges and order and prints the view |
 | Glossary | `docs/glossary.md` | Every role | New term added in the same change; CI checks duplicates |
 | Reviews | `docs/reviews/` | Challenger, author | One file per challenge plus the author's answers; the owner's calls recorded |
+| Mutation ledgers | `docs/mutation/`, one file per run | Tester | A verdict per survivor; a fresh session checks a sample; the gate needs none left without a verdict |
 | Threat models | `docs/security/` | Security engineer | Updated when an interface or command appears |
 | Chronicle | `docs/chronicle/` | Chronicler | One entry per session; agents history; lessons |
 | CI checks | `scripts/ci/`, `.github/workflows/` | Developer | Thin workflow calling scripts that run on any computer |
